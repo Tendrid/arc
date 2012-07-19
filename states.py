@@ -3,7 +3,7 @@
 
 import gc
 from SimpleSeer import models as M
-from SimpleSeer S
+from SimpleSeer.Session import Session
 
 config = Session()
 if config.poll_rate:
