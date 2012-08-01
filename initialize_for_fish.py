@@ -33,9 +33,7 @@ meas.save()
 o = OLAP()
 o.name = 'Movement'  
 o.maxLen = 1000 
-o.queryType = 'measurement_id' 
-o.queryId = meas.id 
-o.fields = ['capturetime','numeric', 'measurement_id', 'inspection_id', 'frame_id']
+o.olapFilter = [{'type': 'measurement', 'name': 'movement.numeric', 'exists': True}]
 o.since = None
 o.before = None
 o.customFilter = {} 
@@ -55,7 +53,36 @@ c.accumulate = False
 c.renderorder = 1
 c.halfsize = False
 c.realtime = True
-c.dataMap = ['capturetime','numeric']
-c.metaMap = ['measurement_id', 'inspection_id', 'frame_id']
+c.dataMap = ['capturetime','movement.numeric']
+c.metaMap = ['movement.measurement_id', 'movement.inspection_id', '_id']
 c.save()
 
+## Delivery time, moving average
+o1 = OLAP()
+o1.name = 'Movement MA'  
+o1.maxLen = 1000 
+o.olapFilter = [{'type': 'measurement', 'name': 'movement.numeric', 'exists': True}]
+o1.queryType = 'measurement_id' 
+o1.queryId = meas.id 
+o1.since = None
+o1.before = None
+o1.customFilter = {} 
+o1.statsInfo = [{'field': 'movement.numeric', 'fn': 'rolling_mean', 'param': 5}]
+o1.save()
+
+c1 = Chart()
+c1.name = 'Movement, 5 Period Moving Average'
+c1.olap = o.name
+c1.style = 'spline'
+c1.minval = 0
+c1.maxval = None
+c1.xtype = 'datetime'
+c1.colormap = {}
+c1.labelmap = {}
+c1.accumulate = False
+c1.renderorder = 1
+c1.halfsize = False
+c1.realtime = True
+c1.dataMap = ['capturetime','movement.numeric', 'movement.numeric.rolling_mean']
+c1.metaMap = ['movement.measurement_id', 'movement.inspection_id', '_id']
+c1.save()
