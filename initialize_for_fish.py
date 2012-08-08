@@ -54,7 +54,7 @@ c.renderorder = 1
 c.halfsize = False
 c.realtime = True
 c.dataMap = ['capturetime','movement.numeric']
-c.metaMap = ['movement.measurement_id', 'movement.inspection_id', '_id']
+c.metaMap = ['movement.measurement_id', 'movement.inspection_id', 'id']
 c.save()
 
 ## Delivery time, moving average
@@ -72,7 +72,7 @@ o1.save()
 
 c1 = Chart()
 c1.name = 'Movement, 5 Period Moving Average'
-c1.olap = o.name
+c1.olap = o1.name
 c1.style = 'spline'
 c1.minval = 0
 c1.maxval = None
@@ -84,5 +84,5 @@ c1.renderorder = 1
 c1.halfsize = False
 c1.realtime = True
 c1.dataMap = ['capturetime','movement.numeric', 'movement.numeric.rolling_mean']
-c1.metaMap = ['movement.measurement_id', 'movement.inspection_id', '_id']
+c1.metaMap = ['movement.measurement_id', 'movement.inspection_id', 'id']
 c1.save()
